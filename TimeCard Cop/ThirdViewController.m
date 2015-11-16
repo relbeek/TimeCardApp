@@ -25,7 +25,7 @@
     
     NSString *projectCode = ("%@",self.savedProjectArray[buttonPress-1]);
     
-    self.projectCodeUpdate.text = @"KATIE";
+    self.projectCodeUpdate.text = self.savedProjectArray[buttonPress-1];
     self.taskCodeUpdate.text = self.savedTaskArray[buttonPress-1];
     self.hourUpdate.text = self.savedHourArray[buttonPress-1];
     self.favoriteCodeUpdate.text = self.savedFavoriteArray[buttonPress-1];

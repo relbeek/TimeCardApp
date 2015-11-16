@@ -82,7 +82,7 @@
         self.project1.text=savedProjectArray[1];
         self.task1.text=savedTaskArray[1];
         self.hours1.text=savedHourArray[1];
-            self.Button1.enabled = YES;
+            self.Button1.enabled = NO;
     }
         else{
             self.project1.text=savedProjectArray[0];
@@ -238,8 +238,6 @@
 }
 
 - (IBAction)Button1:(UIButton *)sender {
-
-self.project12.text=@"Button Pressed";
     NSInteger buttonPress = 1;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setInteger:buttonPress forKey:@"buttonPress"];
