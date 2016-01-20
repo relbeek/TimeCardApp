@@ -9,16 +9,23 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *sumLabel;
 @property (strong,nonatomic) NSMutableArray *projectArray;
 @property (strong,nonatomic) NSMutableArray *taskArray;
 @property (strong,nonatomic) NSMutableArray *favoriteArray;
 @property (strong,nonatomic) NSMutableArray *hourArray;
+@property (strong,nonatomic) NSMutableArray *dateArray;
+@property (strong,nonatomic) NSArray *uniqDate;
+@property (weak, nonatomic) IBOutlet UILabel *displayedTitle;
+- (IBAction)timeCardCop:(UIButton *)sender;
 
 @property (strong,nonatomic) NSArray *savedProjectArray;
 @property (strong,nonatomic) NSArray *savedTaskArray;
 @property (strong,nonatomic) NSArray *savedFavoriteArray;
 @property (strong,nonatomic) NSArray *savedHourArray;
+@property (strong,nonatomic) NSArray *savedDateArray;
 
 @property (weak, nonatomic) IBOutlet UILabel *project1;
 @property (weak, nonatomic) IBOutlet UILabel *task1;
