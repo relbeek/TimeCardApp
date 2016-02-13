@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		940DE85F1C03E5340060C39C /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940DE85E1C03E5340060C39C /* iAd.framework */; };
 		945EF54D1BE6468200CB0C8D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 945EF54C1BE6468200CB0C8D /* main.m */; };
 		945EF5501BE6468200CB0C8D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 945EF54F1BE6468200CB0C8D /* AppDelegate.m */; };
 		945EF5531BE6468200CB0C8D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 945EF5521BE6468200CB0C8D /* ViewController.m */; };
@@ -17,10 +18,7 @@
 		945EF5711BE6468200CB0C8D /* TimeCard_CopUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 945EF5701BE6468200CB0C8D /* TimeCard_CopUITests.m */; };
 		945EF5801BE6481900CB0C8D /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 945EF57F1BE6481900CB0C8D /* SecondViewController.m */; };
 		945EF5831BE6482900CB0C8D /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 945EF5821BE6482900CB0C8D /* ThirdViewController.m */; };
-		94A1178F1BF0425000024FCA /* button+ down.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A1178D1BF0425000024FCA /* button+ down.png */; };
-		94A117901BF0425000024FCA /* button+ small up.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A1178E1BF0425000024FCA /* button+ small up.png */; };
-		94A117931BF0463200024FCA /* button- small down.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A117911BF0463200024FCA /* button- small down.png */; };
-		94A117941BF0463200024FCA /* button- small up.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A117921BF0463200024FCA /* button- small up.png */; };
+		94D9CBE11C41EFD700A692EA /* TimeCardCopApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D9CBE01C41EFD700A692EA /* TimeCardCopApp.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		940DE85E1C03E5340060C39C /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		945EF5481BE6468200CB0C8D /* TimeCard Cop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TimeCard Cop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		945EF54C1BE6468200CB0C8D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		945EF54E1BE6468200CB0C8D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -61,10 +60,7 @@
 		945EF57F1BE6481900CB0C8D /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		945EF5811BE6482900CB0C8D /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
 		945EF5821BE6482900CB0C8D /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
-		94A1178D1BF0425000024FCA /* button+ down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button+ down.png"; sourceTree = "<group>"; };
-		94A1178E1BF0425000024FCA /* button+ small up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button+ small up.png"; sourceTree = "<group>"; };
-		94A117911BF0463200024FCA /* button- small down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button- small down.png"; sourceTree = "<group>"; };
-		94A117921BF0463200024FCA /* button- small up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button- small up.png"; sourceTree = "<group>"; };
+		94D9CBE01C41EFD700A692EA /* TimeCardCopApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = TimeCardCopApp.png; path = ../../../Documents/TimeCardCopApp.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				940DE85F1C03E5340060C39C /* iAd.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,10 +92,7 @@
 		945EF53F1BE6468200CB0C8D = {
 			isa = PBXGroup;
 			children = (
-				94A117911BF0463200024FCA /* button- small down.png */,
-				94A117921BF0463200024FCA /* button- small up.png */,
-				94A1178D1BF0425000024FCA /* button+ down.png */,
-				94A1178E1BF0425000024FCA /* button+ small up.png */,
+				940DE85E1C03E5340060C39C /* iAd.framework */,
 				945EF54A1BE6468200CB0C8D /* TimeCard Cop */,
 				945EF5641BE6468200CB0C8D /* TimeCard CopTests */,
 				945EF56F1BE6468200CB0C8D /* TimeCard CopUITests */,
@@ -119,6 +113,7 @@
 		945EF54A1BE6468200CB0C8D /* TimeCard Cop */ = {
 			isa = PBXGroup;
 			children = (
+				94D9CBE01C41EFD700A692EA /* TimeCardCopApp.png */,
 				945EF54E1BE6468200CB0C8D /* AppDelegate.h */,
 				945EF54F1BE6468200CB0C8D /* AppDelegate.m */,
 				945EF5511BE6468200CB0C8D /* ViewController.h */,
@@ -232,7 +227,7 @@
 						DevelopmentTeam = 3R5644RXY3;
 						SystemCapabilities = {
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -272,12 +267,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				945EF55B1BE6468200CB0C8D /* LaunchScreen.storyboard in Resources */,
-				94A117941BF0463200024FCA /* button- small up.png in Resources */,
-				94A117931BF0463200024FCA /* button- small down.png in Resources */,
+				94D9CBE11C41EFD700A692EA /* TimeCardCopApp.png in Resources */,
 				945EF5581BE6468200CB0C8D /* Assets.xcassets in Resources */,
-				94A1178F1BF0425000024FCA /* button+ down.png in Resources */,
 				945EF5561BE6468200CB0C8D /* Main.storyboard in Resources */,
-				94A117901BF0425000024FCA /* button+ small up.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

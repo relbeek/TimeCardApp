@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 
-@interface ThirdViewController : UIViewController
-
-- (IBAction)deleteAction:(UIBarButtonItem *)sender;
+@interface ThirdViewController : UIViewController <ADBannerViewDelegate>{
+    ADBannerView *adView;
+}
 - (IBAction)updateAction:(UIBarButtonItem *)sender;
 
 @property (weak, nonatomic) IBOutlet UITextField *projectCodeUpdate;
@@ -28,5 +29,7 @@
 @property (strong,nonatomic) NSArray *savedTaskArray;
 @property (strong,nonatomic) NSArray *savedFavoriteArray;
 @property (strong,nonatomic) NSArray *savedHourArray;
+
+@property (nonatomic,retain) IBOutlet ADBannerView *adView;
 
 @end

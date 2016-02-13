@@ -15,9 +15,24 @@
 
 @implementation ViewController
 
+int option = 0;
+int offset = 0;
+int dataDisplay;
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    UISwipeGestureRecognizer * swipeleft=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeleft:)];
+    swipeleft.direction=UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeleft];
+    
+    
+    UISwipeGestureRecognizer * swiperight=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swiperight:)];
+    swiperight.direction=UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:swiperight];
+    
+    
     self.Button1.enabled = NO;
     self.Button2.enabled = NO;
     self.Button3.enabled = NO;
@@ -31,8 +46,10 @@
     self.Button11.enabled = NO;
     self.Button12.enabled = NO;
     self.Button13.enabled = NO;
+  
+    NSInteger option = 0;
     
-    NSInteger buttonPress = 0;
+    //NSInteger buttonPress = 0;
 
     NSLocale *en_US_POSIX = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
     assert(en_US_POSIX != nil);
@@ -59,7 +76,10 @@
     NSArray *savedTaskArray = [userDefaults objectForKey:@"taskArray"];
     NSArray *savedFavoriteArray = [userDefaults objectForKey:@"favoriteArray"];
     NSArray *savedHourArray = [userDefaults objectForKey:@"hourArray"];
- //NSArray *savedProjectArray = [[NSArray alloc] initWithObjects:@"", nil];
+    NSArray *savedDateArray = [userDefaults objectForKey:@"dateArray"];
+    [userDefaults setInteger:option forKey:@"viewLoader"];
+  //NSArray *savedProjectArray = [[NSArray alloc] initWithObjects:@"", nil];
+
     
     if(_projectArray ==nil){
         _projectArray = [[NSMutableArray alloc] initWithArray:savedProjectArray];
@@ -77,88 +97,190 @@
         _hourArray = [[NSMutableArray alloc] initWithArray:savedHourArray];
     }
     
-    if (savedProjectArray.count > 0) {
-        if ([self.savedProjectArray[0]  isEqual: @""]) {
-        self.project1.text=savedProjectArray[1];
-        self.task1.text=savedTaskArray[1];
-        self.hours1.text=savedHourArray[1];
-            self.Button1.enabled = NO;
+    if(_dateArray ==nil){
+        _dateArray = [[NSMutableArray alloc] initWithArray:savedDateArray];
     }
-        else{
-            self.project1.text=savedProjectArray[0];
-            self.task1.text=savedTaskArray[0];
-            self.hours1.text=savedHourArray[0];
-            self.Button1.enabled = YES;
+    NSDictionary *uniqd = [NSDictionary dictionaryWithObjects:self.dateArray forKeys:self.dateArray];
+    _uniqDate = [[NSMutableArray alloc] initWithArray:uniqd.allKeys];
+    
+    NSLog(@"Dates:%@",_uniqDate);
+   
+    int i=0;
+    int k=0;
+    int j=0;
+    
+    NSMutableArray *dateDataset = [NSMutableArray array];
+    for (i=0; i<savedDateArray.count; i++) {
+        if (k<_uniqDate.count) {
+            if (savedDateArray[i]==_uniqDate[k]) {
+                j++;
+            }
+            if (savedDateArray.count-1 == i){
+                [dateDataset addObject:[NSNumber numberWithInteger:j]];
+                j=0;
+                k++;
+                i=0;
+            }
         }
     }
     
-    if (savedProjectArray.count > 1) {
-        self.project1.text=savedProjectArray[1];
-        self.task1.text=savedTaskArray[1];
-        self.hours1.text=savedHourArray[1];
-        self.Button2.enabled = YES;
+    dataDisplay = _uniqDate.count-offset;
+    
+    int t =0;
+    int displayIndexStart=0;
+    int displayIndexStop;
+    
+    for (t=0; t<dataDisplay-1; t++) {
+        displayIndexStart = displayIndexStart + [dateDataset[t] intValue];
+        displayIndexStop = displayIndexStart + [dateDataset[t+1] intValue];
     }
     
-    if (savedProjectArray.count > 2) {
-        self.project2.text=savedProjectArray[2];
-        self.task2.text=savedTaskArray[2];
-        self.hours2.text=savedHourArray[2];
+    displayIndexStart = displayIndexStart;
+    displayIndexStop = displayIndexStop;
+    
+    NSMutableArray *displaySavedTaskArray = [[NSMutableArray alloc] init];
+    NSMutableArray *displaySavedProjectArray = [[NSMutableArray alloc] init];
+    NSMutableArray *displaySavedHourArray = [[NSMutableArray alloc] init];
+
+
+    
+    int t_data;
+    
+    for (t_data=0; t_data<displayIndexStop - displayIndexStart; t_data++) {
+        [displaySavedTaskArray insertObject:savedTaskArray[displayIndexStart+t_data] atIndex:t_data];
+        [displaySavedProjectArray insertObject:savedProjectArray[displayIndexStart+t_data] atIndex:t_data];
+        [displaySavedHourArray insertObject:savedHourArray[displayIndexStart+t_data] atIndex:t_data];
+        
     }
-    if (savedProjectArray.count > 3) {
-        self.project3.text=savedProjectArray[3];
-        self.task3.text=savedTaskArray[3];
-        self.hours3.text=savedHourArray[3];
+    
+    if (displaySavedTaskArray.count>0){
+        if(![displaySavedTaskArray[0]  isEqual: @""]) {
+            [displaySavedTaskArray insertObject:@"" atIndex:0];
+        }
     }
-    if (savedProjectArray.count > 4) {
-        self.project4.text=savedProjectArray[4];
-        self.task4.text=savedTaskArray[4];
-        self.hours4.text=savedHourArray[4];
+    if (displaySavedProjectArray.count>0){
+        if(![displaySavedProjectArray[0]  isEqual: @""]) {
+            [displaySavedProjectArray insertObject:@"" atIndex:0];
+        }
     }
-    if (savedProjectArray.count > 5) {
-        self.project5.text=savedProjectArray[5];
-        self.task5.text=savedTaskArray[5];
-        self.hours5.text=savedHourArray[5];
+    if (displaySavedHourArray.count>0){
+        if(![displaySavedHourArray[0]  isEqual: @""]) {
+            [displaySavedHourArray insertObject:@"" atIndex:0];
+        }
     }
-    if (savedProjectArray.count > 6) {
-        self.project6.text=savedProjectArray[6];
-        self.task6.text=savedTaskArray[6];
-        self.hours6.text=savedHourArray[6];
+
+    
+    NSLog(@"datasets: %@",dateDataset);
+    NSLog(@"index Starts at: %i",displayIndexStop);
+    
+    NSLog(@"VALUES for today%@",displaySavedTaskArray);
+    if (savedProjectArray.count > 0) {
+  //      if ([self.savedProjectArray[0]  isEqual: @" "]) {
+  //      self.project1.text=savedProjectArray[1];
+  //      self.task1.text=savedTaskArray[1];
+  //      self.hours1.text=savedHourArray[1];
+  //          self.Button1.enabled = NO;
+  //  }
+  //      else{
+        //self.project1.text=savedProjectArray[0];
+    //        self.task1.text=savedTaskArray[0];
+   //         self.hours1.text=savedHourArray[0];
+   //         self.Button1.enabled = YES;
+    //}
     }
-    if (savedProjectArray.count > 7) {
-        self.project7.text=savedProjectArray[7];
-        self.task7.text=savedTaskArray[7];
-        self.hours7.text=savedHourArray[7];
+    
+    if (displaySavedProjectArray.count > 1) {
+        self.project1.text=displaySavedTaskArray[1];
+        self.hours1.text=displaySavedHourArray[1];
+        self.Button1.enabled = YES;
     }
-    if (savedProjectArray.count > 8) {
-        self.project8.text=savedProjectArray[8];
-        self.task8.text=savedTaskArray[8];
-        self.hours8.text=savedHourArray[8];
+    
+    if (displaySavedProjectArray.count > 2) {
+        self.project2.text=displaySavedTaskArray[2];
+        self.hours2.text=displaySavedHourArray[2];
+        self.Button2.enabled = YES;
     }
-    if (savedProjectArray.count > 9) {
-        self.project9.text=savedProjectArray[9];
-        self.task9.text=savedTaskArray[9];
-        self.hours9.text=savedHourArray[9];
+    if (displaySavedProjectArray.count > 3) {
+
+        self.project3.text=displaySavedTaskArray[3];
+        self.hours3.text=displaySavedHourArray[3];
+        self.Button3.enabled = YES;
     }
-    if (savedProjectArray.count > 10) {
-        self.project10.text=savedProjectArray[10];
-        self.task10.text=savedTaskArray[10];
-        self.hours10.text=savedHourArray[10];
+    if (displaySavedProjectArray.count > 4) {
+
+        self.project4.text=displaySavedTaskArray[4];
+        self.hours4.text=displaySavedHourArray[4];
+        self.Button4.enabled = YES;
     }
-    if (savedProjectArray.count > 11) {
-        self.project11.text=savedProjectArray[11];
-        self.task11.text=savedTaskArray[11];
-        self.hours11.text=savedHourArray[11];
+    if (displaySavedProjectArray.count > 5) {
+
+        self.project5.text=displaySavedTaskArray[5];
+        self.hours5.text=displaySavedHourArray[5];
+        self.Button5.enabled = YES;
     }
-    if (savedProjectArray.count > 12) {
-        self.project12.text=savedProjectArray[12];
-        self.task12.text=savedTaskArray[12];
-        self.hours12.text=savedHourArray[12];
+    if (displaySavedProjectArray.count > 6) {
+
+        self.project6.text=displaySavedTaskArray[6];
+        self.hours6.text=displaySavedHourArray[6];
+        self.Button6.enabled = YES;
     }
-    if (savedProjectArray.count > 13) {
-        self.project13.text=savedProjectArray[13];
-        self.task13.text=savedTaskArray[13];
-        self.hours13.text=savedHourArray[13];
+    if (displaySavedProjectArray.count > 7) {
+
+        self.project7.text=displaySavedTaskArray[7];
+        self.hours7.text=displaySavedHourArray[7];
+        self.Button7.enabled = YES;
     }
+    if (displaySavedProjectArray.count > 8) {
+
+        self.project8.text=displaySavedTaskArray[8];
+        self.hours8.text=displaySavedHourArray[8];
+        self.Button8.enabled = YES;
+    }
+    if (displaySavedProjectArray.count > 9) {
+
+        self.project9.text=displaySavedTaskArray[9];
+        self.hours9.text=displaySavedHourArray[9];
+        self.Button9.enabled = YES;
+    }
+    if (displaySavedProjectArray.count > 10) {
+
+        self.project10.text=displaySavedTaskArray[10];
+        self.hours10.text=displaySavedHourArray[10];
+        self.Button10.enabled = YES;
+
+    }
+    if (displaySavedProjectArray.count > 11) {
+
+        self.project11.text=displaySavedTaskArray[11];
+        self.hours11.text=displaySavedHourArray[11];
+        self.Button11.enabled = YES;
+    }
+    if (displaySavedProjectArray.count > 12) {
+
+        self.project12.text=displaySavedTaskArray[12];
+        self.hours12.text=displaySavedHourArray[12];
+        self.Button12.enabled = YES;
+    }
+    if (displaySavedProjectArray.count > 13) {
+
+        self.project13.text=displaySavedTaskArray[13];
+        self.hours13.text=displaySavedHourArray[13];
+        self.Button13.enabled = YES;
+    }
+    
+    double sumHours = 0;
+    
+    for (i = 0; i< displaySavedHourArray.count; i++) {
+        double value = [displaySavedHourArray[i] doubleValue];
+        sumHours += value;
+        NSLog(@"Hours: %@",displaySavedHourArray[i]);
+    }
+    NSString *hours = [NSString stringWithFormat: @"%.2f",sumHours];
+    self.sumLabel.text =  hours;
+
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -227,6 +349,7 @@
         self.project13.text=@"";
         self.task13.text=@"";
         self.hours13.text=@"";
+        self.sumLabel.text=@"0.00";
         
         
         
@@ -317,5 +440,226 @@
     [userDefaults setInteger:buttonPress forKey:@"buttonPress"];
 }
 
+
+- (IBAction)timeCardCop:(UIButton *)sender {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    //NSInteger option = [userDefaults integerForKey:@"viewLoader"];
+    NSArray *savedProjectArray = [userDefaults objectForKey:@"projectArray"];
+    NSArray *savedTaskArray = [userDefaults objectForKey:@"taskArray"];
+    NSArray *savedFavoriteArray = [userDefaults objectForKey:@"favoriteArray"];
+    NSArray *savedHourArray = [userDefaults objectForKey:@"hourArray"];
+    //NSArray *savedProjectArray = [[NSArray alloc] initWithObjects:@"", nil];
+    
+    if(_projectArray ==nil){
+        _projectArray = [[NSMutableArray alloc] initWithArray:savedProjectArray];
+    }
+    
+    if(_taskArray ==nil){
+        _taskArray = [[NSMutableArray alloc] initWithArray:savedTaskArray];
+    }
+    
+    if(_favoriteArray ==nil){
+        _favoriteArray = [[NSMutableArray alloc] initWithArray:savedFavoriteArray];
+    }
+    
+    if(_hourArray ==nil){
+        _hourArray = [[NSMutableArray alloc] initWithArray:savedHourArray];
+    }
+
+  if (option==0) {
+        option=1;
+ //     [userDefaults setInteger:option forKey:@"viewLoader"];
+  }
+    else{
+        option=0;
+   //     [userDefaults setInteger:option forKey:@"viewLoader"];
+    }
+    
+    NSLog(@"%li",(long)option);
+    switch (option) {
+        case 0:
+            self.displayedTitle.text = @"Nickname";
+            if (savedProjectArray.count > 1) {
+                self.project1.text=savedTaskArray[1];
+                self.hours1.text=savedHourArray[1];
+                self.Button1.enabled = YES;
+            }
+            
+            if (savedProjectArray.count > 2) {
+                self.project2.text=savedTaskArray[2];
+                self.hours2.text=savedHourArray[2];
+                self.Button2.enabled = YES;
+            }
+            if (savedProjectArray.count > 3) {
+                self.project3.text=savedTaskArray[3];
+                self.hours3.text=savedHourArray[3];
+                self.Button3.enabled = YES;
+            }
+            if (savedProjectArray.count > 4) {
+                
+                self.project4.text=savedTaskArray[4];
+                self.hours4.text=savedHourArray[4];
+                self.Button4.enabled = YES;
+            }
+            if (savedProjectArray.count > 5) {
+                
+                self.project5.text=savedTaskArray[5];
+                self.hours5.text=savedHourArray[5];
+                self.Button5.enabled = YES;
+            }
+            if (savedProjectArray.count > 6) {
+                
+                self.project6.text=savedTaskArray[6];
+                self.hours6.text=savedHourArray[6];
+                self.Button6.enabled = YES;
+            }
+            if (savedProjectArray.count > 7) {
+                
+                self.project7.text=savedTaskArray[7];
+                self.hours7.text=savedHourArray[7];
+                self.Button7.enabled = YES;
+            }
+            if (savedProjectArray.count > 8) {
+                
+                self.project8.text=savedTaskArray[8];
+                self.hours8.text=savedHourArray[8];
+                self.Button8.enabled = YES;
+            }
+            if (savedProjectArray.count > 9) {
+                
+                self.project9.text=savedTaskArray[9];
+                self.hours9.text=savedHourArray[9];
+                self.Button9.enabled = YES;
+            }
+            if (savedProjectArray.count > 10) {
+                
+                self.project10.text=savedTaskArray[10];
+                self.hours10.text=savedHourArray[10];
+                self.Button10.enabled = YES;
+                
+            }
+            if (savedProjectArray.count > 11) {
+                
+                self.project11.text=savedTaskArray[11];
+                self.hours11.text=savedHourArray[11];
+                self.Button11.enabled = YES;
+            }
+            if (savedProjectArray.count > 12) {
+                
+                self.project12.text=savedTaskArray[12];
+                self.hours12.text=savedHourArray[12];
+                self.Button12.enabled = YES;
+            }
+            if (savedProjectArray.count > 13) {
+                
+                self.project13.text=savedTaskArray[13];
+                self.hours13.text=savedHourArray[13];
+                self.Button13.enabled = YES;
+            }
+
+            break;
+            
+        default:
+            self.displayedTitle.text = @"Charge Code";
+            if (savedProjectArray.count > 1) {
+                self.project1.text=savedProjectArray[1];
+                self.hours1.text=savedHourArray[1];
+                self.Button1.enabled = YES;
+ 
+            }
+            
+            if (savedProjectArray.count > 2) {
+                self.project2.text=savedProjectArray[2];
+                self.hours2.text=savedHourArray[2];
+                self.Button2.enabled = YES;
+            }
+            if (savedProjectArray.count > 3) {
+                
+                self.project3.text=savedProjectArray[3];
+                self.hours3.text=savedHourArray[3];
+                self.Button3.enabled = YES;
+            }
+            if (savedProjectArray.count > 4) {
+                
+                self.project4.text=savedProjectArray[4];
+                self.hours4.text=savedHourArray[4];
+                self.Button4.enabled = YES;
+            }
+            if (savedProjectArray.count > 5) {
+                
+                self.project5.text=savedProjectArray[5];
+                self.hours5.text=savedHourArray[5];
+                self.Button5.enabled = YES;
+            }
+            if (savedProjectArray.count > 6) {
+                
+                self.project6.text=savedProjectArray[6];
+                self.hours6.text=savedHourArray[6];
+                self.Button6.enabled = YES;
+            }
+            if (savedProjectArray.count > 7) {
+                
+                self.project7.text=savedProjectArray[7];
+                self.hours7.text=savedHourArray[7];
+                self.Button7.enabled = YES;
+            }
+            if (savedProjectArray.count > 8) {
+                
+                self.project8.text=savedProjectArray[8];
+                self.hours8.text=savedHourArray[8];
+                self.Button8.enabled = YES;
+            }
+            if (savedProjectArray
+                .count > 9) {
+                
+                self.project9.text=savedProjectArray[9];
+                self.hours9.text=savedHourArray[9];
+                self.Button9.enabled = YES;
+            }
+            if (savedProjectArray.count > 10) {
+                
+                self.project10.text=savedProjectArray[10];
+                self.hours10.text=savedHourArray[10];
+                self.Button10.enabled = YES;
+                
+            }
+            if (savedProjectArray.count > 11) {
+                
+                self.project11.text=savedProjectArray[11];
+                self.hours11.text=savedHourArray[11];
+                self.Button11.enabled = YES;
+            }
+            if (savedProjectArray.count > 12) {
+                
+                self.project12.text=savedProjectArray[12];
+                self.hours12.text=savedHourArray[12];
+                self.Button12.enabled = YES;
+            }
+            if (savedProjectArray.count > 13) {
+                
+                self.project13.text=savedProjectArray[13];
+                self.hours13.text=savedHourArray[13];
+                self.Button13.enabled = YES;
+            }
+
+            break;
+    }
+}
+
+-(void)swipeleft:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+
+
+}
+
+-(void)swiperight:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    offset =offset -1;
+    int current = _uniqDate.count;
+    
+    self.dateLabel.text = _uniqDate[current-offset];
+    
+}
 
 @end
